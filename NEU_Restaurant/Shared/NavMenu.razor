@@ -1,0 +1,36 @@
+﻿<div class="top-row ps-3 navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">食在东大</a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+	        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+		        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+	        </svg>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+	    <div class="nav-item px-3">
+		    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+			    <span class="oi oi-home" aria-hidden="true"></span> Home
+		    </NavLink>
+	    </div>
+	    <div class="nav-item px-3">
+		    <NavLink class="nav-link" href="menu"> 
+			    <span class="oi oi-list-rich" aria-hidden="true"></span>NEU MENU
+		    </NavLink>
+	    </div>
+    </nav>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}
