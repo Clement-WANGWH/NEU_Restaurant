@@ -1,0 +1,27 @@
+﻿@page "/initialization"
+@using NEU_Restaurant.Library.IServices
+
+@inject NavigationManager _navigationService
+@inject IDishStorage _dishStorage
+@inject IFavoriteStorage _favoriteStorage
+
+@code {
+	protected override async Task OnAfterRenderAsync(bool firstRender) {
+		if (!firstRender) {
+			return;
+		}
+
+		if (!_favoriteStorage.IsInitialized)
+		{
+			await _favoriteStorage.InitializeAsync();
+		}
+		
+		if (!_dishStorage.IsInitialized) {
+			await _dishStorage.InitializeAsync();
+		}
+
+		await Task.Delay(1000);
+
+		_navigationService.NavigateTo(NavigationServiceConstants.MenuPage);
+	}
+}

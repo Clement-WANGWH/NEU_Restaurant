@@ -27,11 +27,12 @@ public class DishStorage : IDishStorage
 
 	public async Task InitializeAsync()
 	{
+		
 		await using var dbFileStream = new FileStream(DishDbPath, FileMode.OpenOrCreate);
 		await using var dbAssetStream = typeof(DishStorage).Assembly.GetManifestResourceStream(DbName);
 		await dbAssetStream.CopyToAsync(dbFileStream);
-
 		_preferenceStorage.Set(DishStorageConstant.DbVersionKey, DishStorageConstant.Version);
+		
 	}
 
 	public Task<Dish> GetDishAsync(int id) => Connection.Table<Dish>().FirstOrDefaultAsync(p => p.Id == id);

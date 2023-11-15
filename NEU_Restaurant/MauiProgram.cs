@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using NEU_Restaurant.Data;
+using NEU_Restaurant.Library.IServices;
+using NEU_Restaurant.Library.Services;
+using NEU_Restaurant.Services;
 
 namespace NEU_Restaurant
 {
@@ -14,15 +17,20 @@ namespace NEU_Restaurant
 				{
 					fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				});
-
 			builder.Services.AddMauiBlazorWebView();
 
 #if DEBUG
-		builder.Services.AddBlazorWebViewDeveloperTools();
+			builder.Services.AddBlazorWebViewDeveloperTools();
 		builder.Logging.AddDebug();
 #endif
 
 			builder.Services.AddSingleton<WeatherForecastService>();
+
+			builder.Services.AddScoped<IPreferenceStorage, PreferenceStorage>();
+			builder.Services.AddScoped<IFavoriteStorage, FavoriteStorage>();
+			builder.Services.AddScoped<IDishStorage, DishStorage>();
+			builder.Services.AddScoped<IParcelBoxService, ParcelBoxService>();
+			builder.Services.AddScoped<INavigationService, NavigationService>();
 
 			return builder.Build();
 		}
