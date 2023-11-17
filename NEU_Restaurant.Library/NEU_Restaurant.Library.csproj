@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="dishdb.sqlite3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <LogicalName>dishdb.sqlite3</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 
