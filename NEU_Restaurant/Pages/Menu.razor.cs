@@ -29,11 +29,8 @@ public partial class Menu
 		try
 		{
 			_status = Loading;
-			var dish = await _dishStorage.GetDishAsync(1);
-			if (dish != null)
-			{
-				_dishes.Add(dish);
-			}
+			var allDishes = await _dishStorage.GetDishesAsync(dish => true, 0, int.MaxValue);
+			_dishes = allDishes.ToList();
 			_status = string.Empty;
 			StateHasChanged(); // 再次通知组件状态已更改
 		}
