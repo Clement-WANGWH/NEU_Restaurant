@@ -9,6 +9,9 @@
 
 @foreach (var dish in _dishes)
 {
-	<span style="font-weight: bold; color: #0078d4">@dish.Name</span>
+	<NavLink href="@("/detail/" + dish.Id)">
+	<span style="font-weight: bold; color: #0078d4" OnClick="()=>DirectToCounter()">@dish.Name</span>
+	</NavLink>
 	<div class="shim-xl"></div>
 }
+

@@ -1,6 +1,16 @@
-﻿@page "/detail"
-<h3>Detail</h3>
+﻿@page "/detail/{DishId:int}"
+
+@if (Dish != null)
+{
+	<h2>@Dish.Name</h2>
+	<p>价格: @Dish.Price</p>
+}
+else
+{
+	<p>Loading...</p>
+}
 
 @code {
-	
+	[Parameter]
+	public int DishId { get; set; }
 }
