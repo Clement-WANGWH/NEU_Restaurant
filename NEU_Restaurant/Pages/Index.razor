@@ -4,8 +4,6 @@
 @inject IFavoriteStorage _favoriteStorage
 @inject NavigationManager _navigationService
 
-<h1>hello</h1>
-
 @code {
 	
 	protected override void OnAfterRender(bool firstRender) {
@@ -19,6 +17,5 @@
 			_navigationService.NavigateTo(NavigationServiceConstants.MenuPage);
 		}
 	}
-	
 
 }
