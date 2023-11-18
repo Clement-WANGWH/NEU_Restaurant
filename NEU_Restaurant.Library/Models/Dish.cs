@@ -19,6 +19,9 @@ public class Dish
 	[SQLite.Column("canteen")]
 	public string Canteen { get; set; } = string.Empty;
 
+    [SQLite.Column("stall")] 
+    public string Stall { get; set; } = string.Empty;
+
 	[SQLite.Column("flavor")]
 	public string Flavor { get; set; } = string.Empty;
 

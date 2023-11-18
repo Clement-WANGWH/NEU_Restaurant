@@ -19,9 +19,10 @@ namespace NEU_Restaurant
 					fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				});
 			builder.Services.AddMauiBlazorWebView();
+            builder.Services.AddBootstrapBlazor();
 
 #if DEBUG
-			builder.Services.AddBlazorWebViewDeveloperTools();
+            builder.Services.AddBlazorWebViewDeveloperTools();
 		builder.Logging.AddDebug();
 #endif
 
