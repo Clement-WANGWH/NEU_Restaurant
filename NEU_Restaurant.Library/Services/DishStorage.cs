@@ -47,5 +47,5 @@ public class DishStorage : IDishStorage
 public static class DishStorageConstant
 {
 	public const string DbVersionKey = nameof(DishStorageConstant) + "." + nameof(DbVersionKey);
-	public const int Version = 2;
+	public const int Version = 3;
 }
