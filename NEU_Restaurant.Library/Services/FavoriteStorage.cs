@@ -8,12 +8,12 @@ public class FavoriteStorage : IFavoriteStorage
 {
 	public const string DbName = "favoritedb.sqlite3";
 
-	public static readonly string PoetryDbPath =
+	public static readonly string DishDbPath =
 		Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DbName);
 
 	private SQLiteAsyncConnection? _connection;
 
-	private SQLiteAsyncConnection Connection => _connection ??= new SQLiteAsyncConnection(PoetryDbPath);
+	private SQLiteAsyncConnection Connection => _connection ??= new SQLiteAsyncConnection(DishDbPath);
 
 	private readonly IPreferenceStorage _preferenceStorage;
 
@@ -31,9 +31,9 @@ public class FavoriteStorage : IFavoriteStorage
 		_preferenceStorage.Set(FavoriteStorageConstant.VersionKey, FavoriteStorageConstant.Version);
 	}
 
-	public async Task<Favorite?> GetFavoriteAsync(int poetryId) =>
+	public async Task<Favorite?> GetFavoriteAsync(int DishId) =>
 		await Connection.Table<Favorite>()
-			.FirstOrDefaultAsync(p => p.PoetryId == poetryId);
+			.FirstOrDefaultAsync(p => p.DishId == DishId);
 
 	public async Task<IEnumerable<Favorite>> GetFavoritesAsync() =>
 		await Connection.Table<Favorite>().Where(p => p.IsFavorite)

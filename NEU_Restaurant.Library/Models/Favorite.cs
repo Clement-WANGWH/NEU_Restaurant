@@ -5,7 +5,7 @@ namespace NEU_Restaurant.Library.Models;
 public class Favorite
 {
 	[PrimaryKey]
-	public int PoetryId { get; set; }
+	public int DishId { get; set; }
 
 	public bool IsFavorite { get; set; }
 

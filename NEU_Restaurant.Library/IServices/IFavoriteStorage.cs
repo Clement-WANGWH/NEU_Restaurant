@@ -8,7 +8,7 @@ public interface IFavoriteStorage
 
 	Task InitializeAsync();
 
-	Task<Favorite> GetFavoriteAsync(int poetryId);
+	Task<Favorite> GetFavoriteAsync(int DishId);
 
 	Task<IEnumerable<Favorite>> GetFavoritesAsync();
 
