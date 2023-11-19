@@ -55,7 +55,7 @@ public class DishStorageTest : IDisposable
 		var poetries = await DishStorage.GetDishesAsync(
 			Expression.Lambda<Func<Dish, bool>>(Expression.Constant(true),
 				Expression.Parameter(typeof(Dish), "p")), 0, int.MaxValue);
-		Assert.Equal(2, poetries.Count());
+		Assert.Equal(3, poetries.Count());
 		await DishStorage.CloseAsync();
 	}
 }
