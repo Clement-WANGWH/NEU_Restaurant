@@ -11,5 +11,5 @@ public interface IDishStorage
 
 	Task<Dish> GetDishAsync(int id);
 
-	Task<IEnumerable<Dish>> GetDishesAsync(Expression<Func<Dish, bool>> where, int skip, int take);
+	Task<IEnumerable<Dish>> GetDishesAsync(Expression<Func<Dish, bool>> where);
 }

@@ -31,9 +31,6 @@ public class Dish
 	[SQLite.Column("image")]
 	public string Image { get; set; } = string.Empty;
 
-	[SQLite.Column("is_favor")]
-	public bool IsFavor { get; set; }
-
 	[SQLite.Column("description")]
 	public string Description { get; set; } = string.Empty;
 

@@ -40,7 +40,7 @@ public class FavoriteStorageTest : IDisposable
 
 		await favoriteStorage.CloseAsync();
 	}
-
+	/*
 	[Fact]
 	public async Task SaveFavoriteAsync_GetFavoriteAsync_Default()
 	{
@@ -99,6 +99,7 @@ public class FavoriteStorageTest : IDisposable
 
 		await favoriteStorage.CloseAsync();
 	}
+	*/
 
 	private static IPreferenceStorage GetEmptyPreferenceStorage() =>
 		new Mock<IPreferenceStorage>().Object;

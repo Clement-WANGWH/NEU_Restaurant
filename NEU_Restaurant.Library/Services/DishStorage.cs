@@ -38,8 +38,8 @@ public class DishStorage : IDishStorage
 	public Task<Dish> GetDishAsync(int id) => Connection.Table<Dish>().FirstOrDefaultAsync(p => p.Id == id);
 
 	public async Task<IEnumerable<Dish>> GetDishesAsync(
-		Expression<Func<Dish, bool>> where, int skip, int take) =>
-		await Connection.Table<Dish>().Where(where).Skip(skip).Take(take).ToListAsync();
+		Expression<Func<Dish, bool>> where) =>
+		await Connection.Table<Dish>().Where(where).ToListAsync();
 
 	public async Task CloseAsync() => await Connection.CloseAsync();
 }
@@ -47,5 +47,5 @@ public class DishStorage : IDishStorage
 public static class DishStorageConstant
 {
 	public const string DbVersionKey = nameof(DishStorageConstant) + "." + nameof(DbVersionKey);
-	public const int Version = 3;
+	public const int Version = 4;
 }

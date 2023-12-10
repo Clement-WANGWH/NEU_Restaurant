@@ -1,16 +1,15 @@
 ﻿using System.Linq.Expressions;
 using NEU_Restaurant.Library.Models;
 using Microsoft.AspNetCore.Components;
+using BootstrapBlazor.Components;
 
 namespace NEU_Restaurant.Pages;
 
 public partial class Menu
 {
 	public const string Loading = "正在载入";
-	public const string NoMoreResult = "没有更多结果";
 	private string _status = string.Empty;
-	public const int PageSize = 20;
-	private List<Dish> _dishes = new();
+	private List<Item> _items = new();
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -19,7 +18,7 @@ public partial class Menu
 			return;
 		}
 
-		_dishes.Clear();
+		_items.Clear();
 		await LoadMoreAsync();
 		StateHasChanged(); // 通知组件状态已更改
 	}
@@ -29,15 +28,28 @@ public partial class Menu
 		try
 		{
 			_status = Loading;
-			var allDishes = await _dishStorage.GetDishesAsync(dish => true, 0, int.MaxValue);
-			_dishes = allDishes.ToList();
+            var items = await _dataIntegrationService.GetItemsAsync(
+                dish => true,
+                favorite => true,
+                true);
 			_status = string.Empty;
+			_items.AddRange(items);
 			StateHasChanged(); // 再次通知组件状态已更改
 		}
 		catch (Exception ex)
 		{
 			_status = $"加载错误: {ex.Message}";
-			StateHasChanged(); // 更新状态以显示错误信息
-		}
-	}
+            StateHasChanged(); // 更新状态以显示错误信息
+        }
+    }
+
+    private Task<QueryData<Item>> OnQueryAsync(QueryPageOptions options)
+    {
+        var items = _items.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems);
+        return Task.FromResult(new QueryData<Item>()
+        {
+            Items = items,
+            TotalCount = _items.Count
+        });
+    }
 }

@@ -16,7 +16,7 @@ namespace NEU_Restaurant
 				.UseMauiApp<App>()
 				.ConfigureFonts(fonts =>
 				{
-					fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+					fonts.AddFont("MiSans-Regular.ttf", "MiSansRegular");
 				});
 			builder.Services.AddMauiBlazorWebView();
             builder.Services.AddBootstrapBlazor();
@@ -31,8 +31,8 @@ namespace NEU_Restaurant
 			builder.Services.AddScoped<IPreferenceStorage, PreferenceStorage>();
 			builder.Services.AddScoped<IFavoriteStorage, FavoriteStorage>();
 			builder.Services.AddScoped<IDishStorage, DishStorage>();
-			builder.Services.AddScoped<IParcelBoxService, ParcelBoxService>();
 			builder.Services.AddScoped<INavigationService, NavigationService>();
+			builder.Services.AddScoped<IDataIntegrationService, DataIntegrationService>();
 
 			return builder.Build();
 		}

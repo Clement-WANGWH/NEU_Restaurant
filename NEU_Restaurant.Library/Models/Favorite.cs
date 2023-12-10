@@ -7,9 +7,7 @@ public class Favorite
 	[PrimaryKey]
 	public int DishId { get; set; }
 
-	public bool IsFavorite { get; set; }
-
-	public bool IsDisliked { get; set; }
+	public int DishRate { get; set; }
 
 	public long Timestamp { get; set; }
 }

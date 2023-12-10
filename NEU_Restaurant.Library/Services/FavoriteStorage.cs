@@ -1,4 +1,5 @@
-﻿using NEU_Restaurant.Library.IServices;
+﻿using System.Linq.Expressions;
+using NEU_Restaurant.Library.IServices;
 using NEU_Restaurant.Library.Models;
 using SQLite;
 
@@ -27,21 +28,20 @@ public class FavoriteStorage : IFavoriteStorage
 
 	public async Task InitializeAsync()
 	{
-		await Connection.CreateTableAsync<Favorite>(); 
-		_preferenceStorage.Set(FavoriteStorageConstant.VersionKey, FavoriteStorageConstant.Version);
-	}
+        await Connection.CreateTableAsync<Favorite>(); 
+        _preferenceStorage.Set(FavoriteStorageConstant.VersionKey, FavoriteStorageConstant.Version);
+    }
 
 	public async Task<Favorite?> GetFavoriteAsync(int DishId) =>
 		await Connection.Table<Favorite>()
 			.FirstOrDefaultAsync(p => p.DishId == DishId);
 
-	public async Task<IEnumerable<Favorite>> GetFavoritesAsync() =>
-		await Connection.Table<Favorite>().Where(p => p.IsFavorite)
-			.OrderByDescending(p => p.Timestamp).ToListAsync();
+	public async Task<IEnumerable<Favorite>> GetFavoritesAsync(Expression<Func<Favorite, bool>> where) =>
+        await Connection.Table<Favorite>().Where(where).ToListAsync();
 
-	public async Task<IEnumerable<Favorite>> GetDislikedAsync() =>
-		await Connection.Table<Favorite>().Where(p => p.IsDisliked)
-			.OrderByDescending(p => p.Timestamp).ToListAsync();
+	//public async Task<IEnumerable<Favorite>> GetFavoritesAsync(int x) => await Connection.Table<Favorite>().Where(p => p.DishRate >= x).OrderByDescending(p => p.Timestamp).ToListAsync();
+
+	//public async Task<IEnumerable<Favorite>> GetDislikedAsync(int x) => await Connection.Table<Favorite>().Where(p => p.DishRate <= x).OrderByDescending(p => p.Timestamp).ToListAsync();
 	
 	public async Task SaveFavoriteAsync(Favorite favorite)
 	{
@@ -57,5 +57,5 @@ public static class FavoriteStorageConstant
 	public const string VersionKey =
 		nameof(FavoriteStorageConstant) + "." + nameof(Version);
 
-	public const int Version = 1;
+	public const int Version = 2;
 }

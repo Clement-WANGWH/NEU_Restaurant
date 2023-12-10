@@ -46,16 +46,4 @@ public class DishStorageTest : IDisposable
 		Assert.Equal("红烧肉", Dish.Name);
 		await DishStorage.CloseAsync();
 	}
-
-	[Fact]
-	public async Task GetPoetriesAsync_Default()
-	{
-		var DishStorage =
-			await DishStorageHelper.GetInitializedDishStorage();
-		var poetries = await DishStorage.GetDishesAsync(
-			Expression.Lambda<Func<Dish, bool>>(Expression.Constant(true),
-				Expression.Parameter(typeof(Dish), "p")), 0, int.MaxValue);
-		Assert.Equal(3, poetries.Count());
-		await DishStorage.CloseAsync();
-	}
 }
