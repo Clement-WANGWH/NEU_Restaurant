@@ -3,35 +3,50 @@
 
 @if (Dish != null)
 {
-    <img class="imgshow" src="@Dish.Image" width="100%" style="margin:0px 0px;" alt="图片描述" />
-    <div class="detailcontent">
-        <h1>@Dish.Name</h1>
+    <div class="big">@Dish.Name</div>
 
+    <img class="imgshow" src="@Dish.Image" width="100%" style="margin:0px 0px;" alt="图片描述" />
+
+    <div class="price-container">
+        <span class="currency-symbol">¥</span>@Dish.Price
+    </div>
+
+    <div>
+        <div class="detail-container">
+            <span class="bold">食堂：</span>@Dish.Canteen
+        </div>
+        <div class="detail-container">
+            <span class="bold">店面：</span>@Dish.Stall
+        </div>
+        <div class="detail-container">
+            <span class="bold">风味：</span>@Dish.Flavor
+        </div>
+        <div class="detail-container">
+            <span class="bold">食材：</span>@Dish.Ingredient
+        </div>
         <div class="row mt-3">
             <div class="col-12 col-sm-6">
-                <Rate @bind-Value="IconListValue" class="custom-rate">
-                    <ItemTemplate>
-                        <i class="@GetIconList(int.Parse(Math.Round(context, 0, MidpointRounding.AwayFromZero).ToString()))"></i>
-                    </ItemTemplate>
-                </Rate>
-            </div>
-            <div class="col-12 col-sm-6">
-                <div class="d-flex align-items-center h-100">
+                <div class="hx">
+                    <Rate @bind-Value="IconListValue" class="custom-rate">
+                        <ItemTemplate>
+                            <i class="@GetIconList(int.Parse(Math.Round(context, 0, MidpointRounding.AwayFromZero).ToString()))"></i>
+                        </ItemTemplate>
+                    </Rate>
+                </div>
+                <div class="hx">
                     @Symbol
                 </div>
+                </div>
+                @*<div class="col-12 col-sm-6">
+            <div class="d-flex align-items-center h-100">
+                @Symbol
             </div>
-        </div>
+        </div>*@
+            </div>
         <div style="display: none;">
-            <!-- 这里是你想要隐藏的内容 -->
+            这里是你想要隐藏的内容
             @GetIconValueChanged()
         </div>
-
-        <h2>食堂：@Dish.Canteen</h2>
-        <h2>店面：@Dish.Stall</h2>
-        <h2>价格: @Dish.Price</h2>
-        <h2>风味：@Dish.Flavor</h2>
-        <h2>食材：@Dish.Ingredient</h2>
-
     </div>
 
 }
