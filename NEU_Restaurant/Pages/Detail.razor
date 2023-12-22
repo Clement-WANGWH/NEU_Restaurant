@@ -4,13 +4,8 @@
 @if (Dish != null)
 {
     <img class="imgshow" src="@Dish.Image" width="100%" style="margin:0px 0px;" alt="图片描述" />
-    <div>
+    <div class="detailcontent">
         <h1>@Dish.Name</h1>
-        <h2>食堂：@Dish.Canteen</h2>
-        <h2>店面：@Dish.Stall</h2>
-        <h2>价格: @Dish.Price</h2>
-        <h2>风味：@Dish.Flavor</h2>
-        <h2>食材：@Dish.Ingredient</h2>
 
         <div class="row mt-3">
             <div class="col-12 col-sm-6">
@@ -30,8 +25,15 @@
             <!-- 这里是你想要隐藏的内容 -->
             @GetIconValueChanged()
         </div>
-        
+
+        <h2>食堂：@Dish.Canteen</h2>
+        <h2>店面：@Dish.Stall</h2>
+        <h2>价格: @Dish.Price</h2>
+        <h2>风味：@Dish.Flavor</h2>
+        <h2>食材：@Dish.Ingredient</h2>
+
     </div>
+
 }
 else
 {
