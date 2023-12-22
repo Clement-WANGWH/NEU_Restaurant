@@ -2,40 +2,81 @@
 @using NEU_Restaurant.Library.Models
 
 @inject IDataIntegrationService _dataIntegrationService
+@inject NavigationManager _navigationManager
 
-<ListView TItem="Item" Items="@_items" Pageable="true" PageItems="20" OnQueryAsync="@OnQueryAsync">
-    <HeaderTemplate>
-        <div>选项表</div>
-    </HeaderTemplate>
-    <BodyTemplate>
-        <NavLink href="@("/detail/" + context.Id)">
-            <Card IsShadow="true">
-                <BodyTemplate>
-                    <div style="display: flex; flex-wrap: wrap; width: 100%; height: 60px; margin-top: -8px;">
-                        <div style="width: 50%; font-size: 18px; font-weight: bold">@context.Name</div>
-                        <div style="width: 50%;">
-                            <img style="margin-left: 66px; width: 20px" src='https://s3.bmp.ovh/imgs/2023/11/17/088cf5496cab7978.png'>
-                            <img style="margin-left: 10px; width: 20px;" src='https://s3.bmp.ovh/imgs/2023/11/17/56845382a4638100.png'>
-                        </div>
-
-                        <div style="width: 50%; font-size: 14px; margin-top: 4px;">@context.Canteen</div>
-                        <div style="width: 50%; font-size: 14px; margin-top: 4px; margin-left: -50px; color: gray">@context.Stall</div>
+<Collapse>
+    <CollapseItems>
+        <CollapseItem Text="筛选">
+            <div class="row g-3">
+                <div class="col-12 col-sm-6">
+                    <BootstrapInputGroup>
+                        <BootstrapInputGroupLabel DisplayText="菜品" />
+                        <Dropdown TValue="string" Items="@_canteens" OnSelectedItemChanged="@OnCascadeBindSelectClick" Color="Color.Secondary" FixedButtonText="食堂" Size="Size.ExtraSmall" />
+                        <Dropdown TValue="string" Items="@_stalls" OnSelectedItemChanged="@StallValueChanged" Color="Color.Secondary" FixedButtonText="窗口" Size="Size.ExtraSmall"></Dropdown>
+                        <Dropdown TValue="string" Items="@_flavors" OnSelectedItemChanged="@FlavorValueChanged" Color="Color.Secondary" FixedButtonText="风味" Size="Size.ExtraSmall"></Dropdown>
+                    </BootstrapInputGroup>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <BootstrapInputGroup>
+                        <BootstrapInputGroupLabel DisplayText="价格低于" />
+                        <Slider @bind-Value="@HighValue" Step="1" UseInputEvent="true"></Slider>
+                        <Display Value="@(HighValue)"></Display>
+                    </BootstrapInputGroup>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <BootstrapInputGroup>
+                        <BootstrapInputGroupLabel DisplayText="价格高于" />
+                        <Slider @bind-Value="@LowValue" Step="1" UseInputEvent="true"></Slider>
+                        <Display Value="@(LowValue)"></Display>
+                    </BootstrapInputGroup>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <BootstrapInputGroup>
+                        <BootstrapInputGroupLabel DisplayText="评分" />
+                        <CheckboxList IsButton="true" ShowBorder="false" TValue="IEnumerable<int>" @bind-Value="@_rate" Items="@Points" ShowLabel="true"></CheckboxList>
+                    </BootstrapInputGroup>
+                </div>
+                <div class="row g-3">
+                    <div class="col-6 align-items-center d-flex justify-content-start">
+                        <div style="white-space: nowrap;">按评分排序：</div>
+                        <Switch OnColor="Color.Primary" ShowInnerText="true" @bind-Value="@_rank" OnInnerText="是" OffInnerText="否"/>
                     </div>
-                </BodyTemplate>
-            </Card>
-        </NavLink>
+                    <div class="col-6 align-items-center d-flex justify-content-start">
+                        <div style="white-space: nowrap;">仅显示已评分</div>
+                        <Switch OnColor="Color.Primary" ShowInnerText="true" @bind-Value="@_israted" OnInnerText="是" OffInnerText="否" />
+                    </div>
+                </div>
+                <div class="col-12">
+                    <Button IsBlock="true" Text="搜索" IsAsync="true" Icon="fa-solid fa-fw fa-search" OnClick="@ClickAsyncButton" />
+                </div>
+            </div>
+        </CollapseItem>
+    </CollapseItems>
+</Collapse>
+<ListView TItem="Item" Items="@_items" Pageable="true" PageItems="20" OnListViewItemClick="OnListViewItemClick" OnQueryAsync="@OnQueryAsync">
+    <BodyTemplate>
+        <Card IsShadow="true">
+            <BodyTemplate>
+                <div style="display: flex; flex-wrap: wrap; width: 100%; height: 60px; margin-top: -8px;">
+                    <div style="width: 50%; font-size: 18px; font-weight: bold">@context.Name</div>
+                    <div style="width: 50%;">
+                        <img style="margin-left: 66px; width: 20px" src='https://s3.bmp.ovh/imgs/2023/11/17/088cf5496cab7978.png'>
+                        <img style="margin-left: 10px; width: 20px;" src='https://s3.bmp.ovh/imgs/2023/11/17/56845382a4638100.png'>
+                    </div>
+
+                    <div style="width: 50%; font-size: 14px; margin-top: 4px;">@context.Canteen</div>
+                    <div style="width: 50%; font-size: 14px; margin-top: 4px; margin-left: -50px; color: gray">@context.Stall</div>
+                </div>
+            </BodyTemplate>
+        </Card>
     </BodyTemplate>
-    <FooterTemplate>
-        <div class="text-md-center">
-            已经到页尾啦
-        </div>
-    </FooterTemplate>
 </ListView>
+<div class="text-center">
+    @_status
+</div>
 
-
-
-
-@if (!string.IsNullOrEmpty(_status))
+@code
 {
-    <div>@_status</div>
+        //_navigationManager.NavigateTo($"/detail/{item.Id}");
+        //return Task.CompletedTask;
 }

@@ -58,22 +58,12 @@ public partial class Detail
         };
         return false;
     }
-    
-    /*
-    private string GetIconValueChanged() => (IconListValue - 1) switch
-    {
-        -1 => "未评分",
-        0 => "反胃",
-        1 => "难吃",
-        2 => "一般",
-        3 => "不错",
-        _ => "惊喜"
-    };*/
 
     protected override async Task OnInitializedAsync()
 	{
-		Dish = await _dishStorage.GetDishAsync(DishId);
-		Favorite = await _favoriteStorage.GetFavoriteAsync(DishId);
+		int ID = (int)DishId;
+        Dish = await _dishStorage.GetDishAsync(ID);
+		Favorite = await _favoriteStorage.GetFavoriteAsync(ID);
         IconListValue = Favorite?.DishRate ?? 0;
         SymbolChanged();
     }

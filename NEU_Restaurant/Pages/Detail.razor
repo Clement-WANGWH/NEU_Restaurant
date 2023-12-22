@@ -1,12 +1,10 @@
-﻿@page "/detail/{DishId:int}"
-
-@inject IDishStorage _dishStorage
+﻿@inject IDishStorage _dishStorage
 @inject IFavoriteStorage _favoriteStorage
 
 @if (Dish != null)
 {
     <img src="@Dish.Image" width="100%" style="margin:0px 0px;" alt="图片描述" />
-    <div style="width: 90%; border-radius: 25px; background-color: yellow; position: absolute; left: 50%; transform: translateX(-50%); ">
+    <div>
         <h1>@Dish.Name</h1>
         <h2>食堂：@Dish.Canteen</h2>
         <h2>店面：@Dish.Stall</h2>
@@ -41,6 +39,6 @@ else
 }
 
 @code {
-    [Parameter]
-    public int DishId { get; set; }
+    [CascadingParameter(Name = "BodyContext")]
+    private object? DishId { get; set; }
 }
