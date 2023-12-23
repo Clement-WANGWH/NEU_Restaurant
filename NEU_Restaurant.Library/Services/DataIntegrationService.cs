@@ -119,4 +119,19 @@ public class DataIntegrationService : IDataIntegrationService
             return front.Concat(flavors);
         });
     }
+
+    public Task<IEnumerable<string>> GetNameAndFlavorAsync(Expression<Func<Dish, bool>> whereDish)
+    {
+        return _dishStorage.GetDishesAsync(whereDish).ContinueWith(dishes =>
+        {
+            var name = dishes.Result.Select(dish => dish.Name ).Distinct();
+            var ingredientList = dishes.Result
+                .Select(dish => dish.Ingredient)
+                .SelectMany(ingredients => ingredients.Split('、'))
+                .Select(ingredient => ingredient.Trim()) // 去掉空格
+                .Distinct()
+                .ToList();
+            return name.Concat(ingredientList);
+        });
+    }
 }

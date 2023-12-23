@@ -1,0 +1,28 @@
+﻿@page "/Main"
+
+@inject NavigationManager NavigationManager
+
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-3 col-md-3 col-sm-5 col-7">
+            <div class="text-center">
+                <ImageViewer Url="./img/mainpage-logo.png" FitMode="ObjectFitMode.Contain" ShowPlaceHolder="true" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="custom-box" @onclick="NavigateToSearchPage">
+    <div style="font-size:20px; margin-left:7px">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+</div>
+
+@code
+{
+    private void NavigateToSearchPage()
+    {
+        NavigationManager.NavigateTo("/Search");
+    }
+}

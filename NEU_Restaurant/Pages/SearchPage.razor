@@ -1,0 +1,41 @@
+﻿@page "/Search"
+@using NEU_Restaurant.Library.Models
+
+@inject IDataIntegrationService _dataIntegrationService
+
+<Search IgnoreCase="true"
+        IsLikeMatch="true"
+        IsAutoFocus="true"
+        Items="@Autofill"
+        OnSearch="@OnSearch"
+        IsSelectAllTextOnFocus="true" />
+        
+@if (_beenSearched)
+{
+    <ListView TItem="Item" Items="@_items" Pageable="true" PageItems="20" OnListViewItemClick="OnListViewItemClick" OnQueryAsync="@OnQueryAsync">
+        <BodyTemplate>
+            <Card IsShadow="true">
+                <BodyTemplate>
+                    <div style="display: flex; flex-wrap: wrap; width: 100%; height: 60px; margin-top: -8px;">
+                        <div style="width: 50%; font-size: 18px; font-weight: bold">@context.Name</div>
+                        <div style="width: 50%;">
+                            <img style="margin-left: 66px; width: 20px" src='https://s3.bmp.ovh/imgs/2023/11/17/088cf5496cab7978.png'>
+                            <img style="margin-left: 10px; width: 20px;" src='https://s3.bmp.ovh/imgs/2023/11/17/56845382a4638100.png'>
+                        </div>
+
+                        <div style="width: 50%; font-size: 14px; margin-top: 4px;">@context.Canteen</div>
+                        <div style="width: 50%; font-size: 14px; margin-top: 4px; margin-left: -50px; color: gray">@context.Stall</div>
+                    </div>
+                </BodyTemplate>
+            </Card>
+        </BodyTemplate>
+    </ListView>
+    <div class="text-center">
+        @_status
+    </div>
+}
+
+
+@code {
+    
+}
