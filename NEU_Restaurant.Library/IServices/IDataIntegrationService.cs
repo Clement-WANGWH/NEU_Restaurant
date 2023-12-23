@@ -18,4 +18,6 @@ public interface IDataIntegrationService
     Task <Dictionary<string, IEnumerable<string>>> GetCanteenStallMapAsync(Expression<Func<Dish, bool>> whereDish);
 
     Task <IEnumerable<string>> GetFlavorsAsync(Expression<Func<Dish, bool>> whereDish);
+
+    Task <IEnumerable<string>> GetNameAndFlavorAsync(Expression<Func<Dish, bool>> whereDish);
 }

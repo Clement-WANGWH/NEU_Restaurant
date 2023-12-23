@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NEU_Restaurant", "NEU_Restaurant\NEU_Restaurant.csproj", "{06DE09AF-A1FD-4B75-B27F-D20F7D6AD1FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NEU_Restaurant", "NEU_Restaurant\NEU_Restaurant.csproj", "{06DE09AF-A1FD-4B75-B27F-D20F7D6AD1FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NEU_Restaurant.Web", "NEU_Restaurant.Web\NEU_Restaurant.Web.csproj", "{6106E6F1-CC3F-4AED-9CFC-483346005E74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NEU_Restaurant.Web", "NEU_Restaurant.Web\NEU_Restaurant.Web.csproj", "{6106E6F1-CC3F-4AED-9CFC-483346005E74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NEU_Restaurant.Library", "NEU_Restaurant.Library\NEU_Restaurant.Library.csproj", "{C05DA411-6103-4902-9237-0400EF111DFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NEU_Restaurant.Library", "NEU_Restaurant.Library\NEU_Restaurant.Library.csproj", "{C05DA411-6103-4902-9237-0400EF111DFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NEU_Restaurant.UnitTest", "NEU_Restaurant.UnitTest\NEU_Restaurant.UnitTest.csproj", "{218B5339-52C0-4C19-99F0-A37D930DAA60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NEU_Restaurant.UnitTest", "NEU_Restaurant.UnitTest\NEU_Restaurant.UnitTest.csproj", "{218B5339-52C0-4C19-99F0-A37D930DAA60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

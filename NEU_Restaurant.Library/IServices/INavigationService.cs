@@ -10,4 +10,5 @@ public static class NavigationServiceConstants
 {
 	public const string MenuPage = "/Menu";
 	public const string InitializationPage = "/initialization";
+	public const string MainPage = "/Main";
 }

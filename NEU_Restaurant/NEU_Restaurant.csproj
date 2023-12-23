@@ -51,6 +51,7 @@
 
     <ItemGroup>
       <None Remove="dishdb.sqlite3" />
+      <None Remove="Pages\Detail.razor.css" />
     </ItemGroup>
 
     <ItemGroup>
@@ -79,11 +80,10 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Pages\Detail.razor" />
-      <_ContentIncludedByDefault Remove="Pages\Search.razor" />
     </ItemGroup>
 
     <ItemGroup>
-      <UpToDateCheckInput Remove="Pages\Search.razor" />
+      <Content Include="Pages\Detail.razor.css" />
     </ItemGroup>
 
 </Project>
