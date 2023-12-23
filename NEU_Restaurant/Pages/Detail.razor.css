@@ -1,5 +1,43 @@
-﻿﻿.imgshow {
-    border-radius: 10px; /* 可以根据需要调整圆角的程度 */
+.imgshow {
+    border-radius: 12px; /* 可以根据需要调整圆角的程度 */
     overflow: hidden;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* 可以根据需要调整阴影的大小和颜色 */
+    /*box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);*/ /* 可以根据需要调整阴影的大小和颜色 */
+}
+
+.big {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.small {
+    font-size: 13px;
+}
+
+.price-container {
+    font-size: 32px;
+    color: #FF4A0F;
+    font-weight: bold;
+}
+
+.currency-symbol {
+    font-size: 15px;
+    color: #FF4A0F;
+    font-weight: 500;
+}
+
+.detail-container {
+    font-size: 15px;
+}
+
+.bold {
+    font-weight: 600;
+}
+
+.col-12 col-sm-6 {
+    display: flex;
+}
+
+.hx {
+    display: inline-block;
+    margin-right: 10px; /* 可选：设置盒子之间的右边距 */
 }

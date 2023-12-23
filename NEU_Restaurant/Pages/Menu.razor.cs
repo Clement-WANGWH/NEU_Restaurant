@@ -146,7 +146,7 @@ public partial class Menu
     {
         var detail = new DialogOption
         {
-            Title = item.Name,
+            Title = "菜品详情",
             ShowFooter = false,
             BodyContext = item.Id,
             Component = BootstrapDynamicComponent.CreateComponent<Detail>()
