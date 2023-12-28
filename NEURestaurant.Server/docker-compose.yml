@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  dailypoetryh.server:
+    image: ${DOCKER_REGISTRY-}neurestaurantserver
+    build:
+      context: .
+      dockerfile: NEURestaurant.Server/Dockerfile
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+        

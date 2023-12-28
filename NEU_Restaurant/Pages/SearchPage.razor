@@ -9,33 +9,50 @@
         Items="@Autofill"
         OnSearch="@OnSearch"
         IsSelectAllTextOnFocus="true" />
+
+<div style="height: 10px"></div>
         
 @if (_beenSearched)
 {
-    <ListView TItem="Item" Items="@_items" Pageable="true" PageItems="20" OnListViewItemClick="OnListViewItemClick" OnQueryAsync="@OnQueryAsync">
-        <BodyTemplate>
-            <Card IsShadow="true">
-                <BodyTemplate>
-                    <div style="display: flex; flex-wrap: wrap; width: 100%; height: 60px; margin-top: -8px;">
-                        <div style="width: 50%; font-size: 18px; font-weight: bold">@context.Name</div>
-                        <div style="width: 50%;">
-                            <img style="margin-left: 66px; width: 20px" src='https://s3.bmp.ovh/imgs/2023/11/17/088cf5496cab7978.png'>
-                            <img style="margin-left: 10px; width: 20px;" src='https://s3.bmp.ovh/imgs/2023/11/17/56845382a4638100.png'>
-                        </div>
-
-                        <div style="width: 50%; font-size: 14px; margin-top: 4px;">@context.Canteen</div>
-                        <div style="width: 50%; font-size: 14px; margin-top: 4px; margin-left: -50px; color: gray">@context.Stall</div>
+@foreach (var item in _showItems)
+{
+    <div @onclick="() => OnListViewItemClick(item)">
+        <Card IsShadow="true">
+            <BodyTemplate>
+                <div class="row justify-content-between align-items-center w-100">
+                    <span class="col-9" style="font-weight: bold; font-size: 20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        @item.Name
+                    </span>
+                    <div class="col-3" style="display: flex; align-items: center; justify-content:end">
+                        @if (item.DishRate == 0)
+                        {
+                            <span style="font-size: 12px; color: dimgrey;">未评分</span>
+                        }
+                        else
+                        {
+                            <span style="font-size: 12px; color: dimgrey;">@item.DishRate</span>
+                            <i class="fa-solid fa-star" style="font-size: 14px; margin-left: 2px; color: goldenrod;"></i>
+                        }
                     </div>
-                </BodyTemplate>
-            </Card>
-        </BodyTemplate>
-    </ListView>
+                </div>
+                <!-- Second Row -->
+                <div class="d-flex justify-content-start" style="margin-top: 4px;">
+                    <span style="font-size: 14px;">@item.Canteen</span>
+                    <span style="margin-left:12px; font-size: 14px; color: gray;">@item.Stall</span>
+                </div>
+            </BodyTemplate>
+        </Card>
+    </div>
+    <div style="height: 6px"></div>
+}
+    <Pagination PageCount="@PageCount" ShowPageInfo="true" OnPageLinkClick="@ShowItemsAsync">
+        <PageInfoTemplate>
+            <div class="page-info me-2">@PageInfoText</div>
+            <Select @bind-Value="PageItems" Items="PageItemsSource" />
+        </PageInfoTemplate>
+    </Pagination>
+    <div style="height: 15px"></div>
     <div class="text-center">
         @_status
     </div>
-}
-
-
-@code {
-    
 }

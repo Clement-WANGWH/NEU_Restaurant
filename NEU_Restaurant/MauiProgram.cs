@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using DailyPoetryH.Library.Services;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 using NEU_Restaurant.Data;
 using NEU_Restaurant.Library.IServices;
@@ -33,8 +34,10 @@ namespace NEU_Restaurant
 			builder.Services.AddScoped<IDishStorage, DishStorage>();
 			builder.Services.AddScoped<INavigationService, NavigationService>();
 			builder.Services.AddScoped<IDataIntegrationService, DataIntegrationService>();
+            builder.Services.AddScoped<IRecommendService, RecommendService>();
+            builder.Services.AddScoped<IAlertService, AlertService>();
 
-			return builder.Build();
+            return builder.Build();
 		}
 	}
 }

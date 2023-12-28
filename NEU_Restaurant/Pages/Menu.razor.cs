@@ -1,10 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using NEU_Restaurant.Library.Models;
-using Microsoft.AspNetCore.Components;
 using BootstrapBlazor.Components;
-using Microsoft.Extensions.Logging;
+using NEU_Restaurant.Models;
 using Item = NEU_Restaurant.Library.Models.Item;
 
 namespace NEU_Restaurant.Pages;
@@ -15,14 +11,27 @@ public partial class Menu
     public const string NoMoreData = "页面到底了";
     public const string NoData = "没有相关数据";
 
+    private IEnumerable<string> _autofill = Enumerable.Empty<string>();
     private string _status = string.Empty;
     private string _canteen = string.Empty;
     private string _stall = string.Empty;
     private string _flavor = string.Empty;
     private bool _rank = true;
     private bool _israted = false;
+
     private List<Item> _items = new();
+    private List<Item> _showItems = new();
     private static readonly List<SelectedItem> value = new();
+    
+    private int PageItems { get; set; } = 5;
+    private int PageCount => _items == null
+        ? 0
+        : _items.Count % PageItems == 0
+            ? _items.Count / PageItems
+            : _items.Count / PageItems + 1;
+    private string PageInfoText => $"每页 {PageItems} 条 共 {PageCount} 页";
+    private List<SelectedItem>? PageItemsSource { get; set; }
+
 
     private List<SelectedItem> _canteens { get; set; } = value;
     private IEnumerable<SelectedItem>? _stalls { get; set; }
@@ -35,9 +44,15 @@ public partial class Menu
 
     private IEnumerable<int> _rate { get; set; } = Enumerable.Range(1, 6);
     private IEnumerable<SelectedItem>? Points { get; set; }
-
+    
     protected override async Task OnInitializedAsync()
     {
+        var items = await _dataIntegrationService.GetItemsAsync(
+            dish => true,
+            favorite => true,
+            true);
+        _items.Clear();
+        _items.AddRange(items);
         _canteens = (await _dataIntegrationService.GetCanteensAsync(dish => true)).Select(canteen => new SelectedItem(canteen, canteen)).ToList();
         _flavors = (await _dataIntegrationService.GetFlavorsAsync(dish => true)).Select(flavor => new SelectedItem(flavor, flavor)).ToList();
         _canteenStallMap = await _dataIntegrationService.GetCanteenStallMapAsync(dish => true);
@@ -53,47 +68,34 @@ public partial class Menu
             new SelectedItem { Text = "4分", Value = "4" },
             new SelectedItem { Text = "5分", Value = "5" },
         });
+        PageItemsSource = new List<SelectedItem>(new List<SelectedItem>
+        {
+            new SelectedItem { Text = "5条", Value = "5" },
+            new SelectedItem { Text = "10条", Value = "10" },
+            new SelectedItem { Text = "25条", Value = "25" },
+        });
+        await ShowItemsAsync(1);
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		if (!firstRender)
-		{
-			return;
-		}
-        _items.Clear();
-		await LoadMoreAsync();
-		StateHasChanged(); // 通知组件状态已更改
-	}
-
-	private async Task LoadMoreAsync()
+    //显示菜品
+    private Task ShowItemsAsync(int pageIndex)
 	{
 		try
 		{
 			_status = Loading;
-            var items = await _dataIntegrationService.GetItemsAsync(
-                dish => true,
-                favorite => true,
-                true);
-            _ = !items.Any() ? _status = NoData : _status = NoMoreData;
-			_items.AddRange(items);
-			StateHasChanged(); // 再次通知组件状态已更改
+            _showItems.Clear();
+            _showItems.AddRange(pageIndex == 1
+                ? _items.Take(PageItems)
+                : _items.Skip((pageIndex - 1) * PageItems).Take(PageItems));
+            _ = !_showItems.Any() ? _status = NoData : _status = NoMoreData;
+            StateHasChanged(); // 再次通知组件状态已更改
 		}
 		catch (Exception ex)
 		{
 			_status = $"加载错误: {ex.Message}";
             StateHasChanged(); // 更新状态以显示错误信息
         }
-    }
-
-    private Task<QueryData<Item>> OnQueryAsync(QueryPageOptions options)
-    {
-        var items = _items.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems);
-        return Task.FromResult(new QueryData<Item>()
-        {
-            Items = items,
-            TotalCount = _items.Count
-        });
+        return Task.CompletedTask;
     }
 
     private async Task OnCascadeBindSelectClick(SelectedItem item)
@@ -117,7 +119,8 @@ public partial class Menu
         return Task.CompletedTask;
     }
 
-    private async Task ClickAsyncButton()
+    //筛选菜品
+    private async Task SearchAsync()
     {
         if (_israted)
         {
@@ -139,9 +142,28 @@ public partial class Menu
                 _rank)).ToList();
         }
         _ = _items.Count == 0 ? _status = NoData : _status = NoMoreData;
+        await ShowItemsAsync(1);
         StateHasChanged();
     }
 
+    //推荐菜品
+    private async Task OnRecommendAsync(string prompt)
+    {
+        await SearchAsync();
+
+        var request = new RecommendRequest();
+        request.dishes = _items;
+        request.prompt = prompt;
+
+        var result = await _recommendService.Recommend(request);
+
+        var item = new Item();
+        item.Id = result.Id;
+
+        await OnListViewItemClick(item);
+    }
+
+    //显示菜品详情
     private async Task OnListViewItemClick(Item item)
     {
         var detail = new DialogOption

@@ -14,6 +14,16 @@ public partial class SearchPage
     private bool _beenSearched;
 
     private List<Item> _items = new();
+    private List<Item> _showItems = new();
+
+    private int PageItems { get; set; } = 5;
+    private int PageCount => _items == null
+        ? 0
+        : _items.Count % PageItems == 0
+            ? _items.Count / PageItems
+            : _items.Count / PageItems + 1;
+    private string PageInfoText => $"每页 {PageItems} 条 共 {PageCount} 页";
+    private List<SelectedItem>? PageItemsSource { get; set; }
 
     private IEnumerable<string> Autofill = new List<string>();
 
@@ -21,6 +31,12 @@ public partial class SearchPage
     {
         Autofill = await _dataIntegrationService.GetNameAndFlavorAsync(dish => true);
         _beenSearched = false;
+        PageItemsSource = new List<SelectedItem>(new List<SelectedItem>
+        {
+            new SelectedItem { Text = "5条", Value = "5" },
+            new SelectedItem { Text = "10条", Value = "10" },
+            new SelectedItem { Text = "25条", Value = "25" },
+        });
     }
 
     private async Task OnSearch(string searchText)
@@ -34,18 +50,27 @@ public partial class SearchPage
                         dish.Flavor.Contains(searchText) ||
                         dish.Ingredient.Contains(searchText),
                     fav => true, true)).ToList();
-        _ = _items.Count == 0 ? _status = NoData : _status = NoMoreData;
-        StateHasChanged();
+        await ShowItemsAsync(1);
     }
 
-    private Task<QueryData<Item>> OnQueryAsync(QueryPageOptions options)
+    private Task ShowItemsAsync(int pageIndex)
     {
-        var items = _items.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems);
-        return Task.FromResult(new QueryData<Item>()
+        try
         {
-            Items = items,
-            TotalCount = _items.Count
-        });
+            _status = Loading;
+            _showItems.Clear();
+            _showItems.AddRange(pageIndex == 1
+                ? _items.Take(PageItems)
+                : _items.Skip((pageIndex - 1) * PageItems).Take(PageItems));
+            _ = !_showItems.Any() ? _status = NoData : _status = NoMoreData;
+            StateHasChanged(); // 再次通知组件状态已更改
+        }
+        catch (Exception ex)
+        {
+            _status = $"加载错误: {ex.Message}";
+            StateHasChanged(); // 更新状态以显示错误信息
+        }
+        return Task.CompletedTask;
     }
 
     private async Task OnListViewItemClick(Item item)

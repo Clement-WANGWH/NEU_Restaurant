@@ -22,9 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BootstrapBlazor" Version="8.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.13" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
     <PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="2.1.7-pre20231110210158" />
+    <PackageReference Include="TheSalLab.GeneralReturnValues" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

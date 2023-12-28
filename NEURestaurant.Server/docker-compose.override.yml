@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  dailypoetryh.server:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "9000:80"
+
+  dailypoetryh.server.image2text:
+    ports:
+      - "9001:8000"
